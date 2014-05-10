@@ -32,9 +32,9 @@ public class MainActivity extends Activity {
 //            IK508ControlService k508 = (IK508ControlService) IK508_Stub.getMethod("asInterface",android.os.IBinder.class).invoke(null,k508_binder);
 
 
-            IK508ControlService svc = IK508ControlService.Stub.asInterface(ServiceManager.getService("K508Control"));
-            svc = IK508ControlService.Stub.asInterface(ServiceManager.getService("K508Control"));
-
+            //IK508ControlService svc = IK508ControlService.Stub.asInterface(ServiceManager.getService("K508Control"));
+            //svc.getClass().getMethod("setVal", int.class, long.class).invoke(svc,2,0L);
+            //svc.setVal(2, 1);
             getMenuInflater().inflate(R.menu.main, menu);
 
 

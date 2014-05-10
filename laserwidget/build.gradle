@@ -1,3 +1,9 @@
+
+group   = 'com.innahema'
+version = '0.1.0-SNAPSHOT'
+def version_code = 2
+
+
 buildscript {
     repositories {
         mavenCentral()
@@ -19,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 15
-        versionCode 1
-        versionName "1.0"
+        versionCode version_code
+        versionName version
     }
     buildTypes {
         release {
@@ -36,4 +42,6 @@ dependencies {
 }
 
 
-//project.tasks['dexDebug'].doFirst {}
+project.tasks['createScalaClass'].doLast {
+    delete("D:\\Projects\\Android\\RunboLaserWidget\\laserwidget\\build\\classes\\debug\\android\\os\\")
+}
