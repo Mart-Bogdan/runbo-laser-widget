@@ -1,7 +1,7 @@
 
 group   = 'com.innahema'
-version = '0.1.0'
-def version_code = 5
+version = '0.1.1-SNAPSHOT'
+def version_code = 6
 
 
 buildscript {
