@@ -71,7 +71,7 @@ public class LaserWidget extends AppWidgetProvider {
                 k508Service = IK508ControlService.Stub.asInterface(k508ServiceBinder);
             }
         try {
-            k508Service.setVal(2,isEnabled ? 0L : 0L);
+            k508Service.setVal(2,isEnabled ? 1L : 0L);
         } catch (RemoteException e) {
             Log.e(LOG_TAG, "switchFlash()", e);
         }
