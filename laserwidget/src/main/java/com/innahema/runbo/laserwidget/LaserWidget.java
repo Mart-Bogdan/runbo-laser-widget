@@ -5,8 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IK508ControlService;
-import android.os.ServiceManager;
+import android.os.*;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -20,7 +19,7 @@ public class LaserWidget extends AppWidgetProvider {
 	final static String LOG_TAG = "Runbo Laser widget";
 	static boolean isEnabled = false;
     private IK508ControlService k508Service;
-    private Method setValMethod;
+    private IBinder k508ServiceBinder;
 
 
     @Override
@@ -67,25 +66,15 @@ public class LaserWidget extends AppWidgetProvider {
 	}
 
 	private void switchFlash() {
+            if(k508ServiceBinder==null||!k508ServiceBinder.isBinderAlive() || k508Service==null) {
+                k508ServiceBinder = ServiceManager.getService("K508Control");
+                k508Service = IK508ControlService.Stub.asInterface(k508ServiceBinder);
+            }
         try {
-
-            if(k508Service==null)
-                k508Service = IK508ControlService.Stub.asInterface(ServiceManager.getService("K508Control"));
-
-            if(setValMethod==null)
-                setValMethod = k508Service.getClass().getMethod("setVal", int.class, long.class);
-
-
-            setValMethod.invoke(k508Service, 2, isEnabled ? 1L : 0L);
-
-        } catch (IllegalAccessException e) {
-            Log.e(LOG_TAG, "switchFlash()", e);
-        } catch (InvocationTargetException e) {
-            Log.e(LOG_TAG, "switchFlash()", e);
-        } catch (NoSuchMethodException e) {
+            k508Service.setVal(2,isEnabled ? 0L : 0L);
+        } catch (RemoteException e) {
             Log.e(LOG_TAG, "switchFlash()", e);
         }
-	}
-
+    }
 
 }

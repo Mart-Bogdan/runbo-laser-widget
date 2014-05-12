@@ -1,7 +1,7 @@
 
 group   = 'com.innahema'
 version = '0.1.0-SNAPSHOT'
-def version_code = 2
+def version_code = 4
 
 
 buildscript {
@@ -28,12 +28,23 @@ android {
         versionCode version_code
         versionName version
     }
+    signingConfigs {
+        release {
+            storeFile file("D:\\My Documents\\my-release-key.keystore")
+            storePassword "*******"
+            keyAlias "gplay_w"
+            keyPassword "******"
+        }
+    }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
+
+
 }
 
 dependencies {
