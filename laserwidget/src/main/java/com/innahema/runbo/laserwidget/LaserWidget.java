@@ -3,6 +3,7 @@ package com.innahema.runbo.laserwidget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.*;
@@ -23,8 +24,7 @@ public class LaserWidget extends AppWidgetProvider {
 
 
     @Override
-	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-			int[] appWidgetIds) {
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager,int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		for(int id : appWidgetIds) {
 			updateWidget(context, appWidgetManager, id);
@@ -37,11 +37,9 @@ public class LaserWidget extends AppWidgetProvider {
 
 
 		RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
-		if(isEnabled) {
-			widgetView.setImageViewResource(R.id.ibSwitcher, R.drawable.laser_sign_red);
-		} else {
-			widgetView.setImageViewResource(R.id.ibSwitcher, R.drawable.laser_sign);
-		}
+        widgetView.setImageViewResource(R.id.ibSwitcher, isEnabled
+                                                            ? R.drawable.laser_sign_red
+                                                            : R.drawable.laser_sign);
 		
 		
 		Intent intent = new Intent(context, LaserWidget.class);
@@ -57,15 +55,18 @@ public class LaserWidget extends AppWidgetProvider {
 		super.onReceive(context, intent);
 		
 		if (intent.getAction().equalsIgnoreCase(ACTION_SWITCH)) {
-            //isEnabled = context.getSharedPreferences("iseEnambled",Activity.MODE_PRIVATE);
 			isEnabled = !isEnabled;
-			int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-			updateWidget(context, AppWidgetManager.getInstance(context), id);
-			switchFlash();
+			//int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
+            AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, getClass()));
+            for (int id : appWidgetIds)
+                updateWidget(context, manager, id);
+			switchFlash(context);
 		}
 	}
 
-	private void switchFlash() {
+	private void switchFlash(Context context) {
             if(k508ServiceBinder==null||!k508ServiceBinder.isBinderAlive() || k508Service==null) {
                 k508ServiceBinder = ServiceManager.getService("K508Control");
                 k508Service = IK508ControlService.Stub.asInterface(k508ServiceBinder);
