@@ -19,12 +19,14 @@ public class LaserWidget extends AppWidgetProvider {
 	final static String ACTION_SWITCH = "com.innahema.runbo.laserwidget.SWITCH";
 	final static String LOG_TAG = "Runbo Laser widget";
 	static boolean isEnabled = false;
-    private IK508ControlService k508Service;
-    private IBinder k508ServiceBinder;
+
+    static final ILightControl lightControl = LightControlManager.createLightManager();
 
 
     @Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,int[] appWidgetIds) {
+        ContextHolder.context.set(context);
+
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		for(int id : appWidgetIds) {
 			updateWidget(context, appWidgetManager, id);
@@ -33,8 +35,7 @@ public class LaserWidget extends AppWidgetProvider {
 
 
 	private void updateWidget(Context context,	AppWidgetManager appWidgetManager, int id) {
-
-
+        ContextHolder.context.set(context);
 
 		RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
         widgetView.setImageViewResource(R.id.ibSwitcher, isEnabled
@@ -53,6 +54,7 @@ public class LaserWidget extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
+        ContextHolder.context.set(context);
 		
 		if (intent.getAction().equalsIgnoreCase(ACTION_SWITCH)) {
 			isEnabled = !isEnabled;
@@ -62,20 +64,15 @@ public class LaserWidget extends AppWidgetProvider {
             final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, getClass()));
             for (int id : appWidgetIds)
                 updateWidget(context, manager, id);
-			switchFlash(context);
+			switchFlash();
 		}
 	}
 
-	private void switchFlash(Context context) {
-            if(k508ServiceBinder==null||!k508ServiceBinder.isBinderAlive() || k508Service==null) {
-                k508ServiceBinder = ServiceManager.getService("K508Control");
-                k508Service = IK508ControlService.Stub.asInterface(k508ServiceBinder);
-            }
-        try {
-            k508Service.setVal(2,isEnabled ? 1L : 0L);
-        } catch (RemoteException e) {
-            Log.e(LOG_TAG, "switchFlash()", e);
-        }
+	private void switchFlash() {
+        if(isEnabled)
+            lightControl.enableLaser();
+        else
+            lightControl.disableLaser();
     }
 
 }

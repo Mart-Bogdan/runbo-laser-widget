@@ -26,6 +26,7 @@
         <receiver android:name=".LaserWidget" android:label="Laser Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.innahema.runbo.laserwidget.SWITCH"/>
             </intent-filter>
             <meta-data android:resource="@xml/widget_provider" android:name="android.appwidget.provider"/>
         </receiver>
