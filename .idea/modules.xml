@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RunboLaserWidget.iml" filepath="$PROJECT_DIR$/RunboLaserWidget.iml" />
       <module fileurl="file://$PROJECT_DIR$/laserwidget/laserwidget.iml" filepath="$PROJECT_DIR$/laserwidget/laserwidget.iml" />
+      <module fileurl="file://$PROJECT_DIR$/runbo-laser-widget.iml" filepath="$PROJECT_DIR$/runbo-laser-widget.iml" />
     </modules>
   </component>
 </project>

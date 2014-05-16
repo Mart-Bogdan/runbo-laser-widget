@@ -53,6 +53,3 @@ dependencies {
 }
 
 
-project.tasks['createScalaClass'].doLast {
-    delete("D:\\Projects\\Android\\RunboLaserWidget\\laserwidget\\build\\classes\\debug\\android\\os\\")
-}
