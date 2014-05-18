@@ -12,18 +12,24 @@ public class LightControlManager {
     static String TAG = LightControlManager.class.getName();
 
     public static ILightControl createLightManager() {
+        Log.i(TAG, "createLightManager()");
 
-        try {
+        try
+        {
+            Log.i(TAG, "new RunboX6LightControl()");
             return new RunboX6LightControl();
         } catch (Throwable th) {
             Log.e(TAG, "new RunboX6LightControl", th);
         }
-        try {
+        try
+        {
+            Log.i(TAG, "new RunboX5LightControl()");
             return new RunboX5LightControl();
         } catch (Throwable th) {
             Log.e(TAG, "new RunboX5LightControl", th);
         }
 
+        Log.i(TAG, "new DummyLightControl()");
         return new DummyLightControl();
     }
 }

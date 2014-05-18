@@ -17,7 +17,7 @@ import android.app.Activity;
 public class LaserWidget extends AppWidgetProvider {
 
 	final static String ACTION_SWITCH = "com.innahema.runbo.laserwidget.SWITCH";
-	final static String LOG_TAG = "Runbo Laser widget";
+	final static String TAG = "Runbo Laser widget";
 	static boolean isEnabled = false;
 
     static final ILightControl lightControl = LightControlManager.createLightManager();
@@ -25,6 +25,7 @@ public class LaserWidget extends AppWidgetProvider {
 
     @Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,int[] appWidgetIds) {
+        Log.i(TAG, "onUpdate()");
         ContextHolder.context.set(context);
 
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -53,6 +54,7 @@ public class LaserWidget extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+        Log.i(TAG, "onReceive(intent="+intent+')');
 		super.onReceive(context, intent);
         ContextHolder.context.set(context);
 		
@@ -69,6 +71,7 @@ public class LaserWidget extends AppWidgetProvider {
 	}
 
 	private void switchFlash() {
+        Log.i(TAG, "switchFlash(isEnabled="+isEnabled+')');
         if(isEnabled)
             lightControl.enableLaser();
         else
