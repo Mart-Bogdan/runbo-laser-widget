@@ -19,6 +19,7 @@ public class RunboX6LightControl implements ILightControl {
     static final String TAG = RunboX6LightControl.class.getName();
     //static final String DEVICE_NAME = "/sys/class/leds/red/brightness";
     static final String DEVICE_NAME = "/sys/class/leds/laserlight/brightness ";
+    //             /sys/class/leds/flashlight/brightness
 
     Class<?> lightClass;
 
