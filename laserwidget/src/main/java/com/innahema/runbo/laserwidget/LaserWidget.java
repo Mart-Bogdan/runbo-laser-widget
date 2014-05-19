@@ -6,13 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.*;
 import android.util.Log;
 import android.widget.RemoteViews;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import android.app.Activity;
 
 public class LaserWidget extends AppWidgetProvider {
 
@@ -26,7 +21,7 @@ public class LaserWidget extends AppWidgetProvider {
     @Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,int[] appWidgetIds) {
         Log.i(TAG, "onUpdate()");
-        ContextHolder.context.set(context);
+        ContextHolder.set(context);
 
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		for(int id : appWidgetIds) {
@@ -36,7 +31,7 @@ public class LaserWidget extends AppWidgetProvider {
 
 
 	private void updateWidget(Context context,	AppWidgetManager appWidgetManager, int id) {
-        ContextHolder.context.set(context);
+        ContextHolder.set(context);
 
 		RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
         widgetView.setImageViewResource(R.id.ibSwitcher, isEnabled
@@ -56,7 +51,7 @@ public class LaserWidget extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive(intent="+intent+')');
 		super.onReceive(context, intent);
-        ContextHolder.context.set(context);
+        ContextHolder.set(context);
 		
 		if (intent.getAction().equalsIgnoreCase(ACTION_SWITCH)) {
 			isEnabled = !isEnabled;
@@ -71,7 +66,7 @@ public class LaserWidget extends AppWidgetProvider {
 	}
 
 	private void switchFlash() {
-        Log.i(TAG, "switchFlash(isEnabled="+isEnabled+')');
+        Log.i(TAG, "switchFlash(isEnabled="+isEnabled+')');                   ///
         if(isEnabled)
             lightControl.enableLaser();
         else

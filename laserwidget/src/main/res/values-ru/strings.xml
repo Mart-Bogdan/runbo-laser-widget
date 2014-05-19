@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="phone_not_supported">Ваш телефон не поддерживается!</string>
+    <string name="cant_get_root">Не удалось получить права Root, или выполнить комманду</string>
+    <string name="cant_execute_command">Не удалось выполнить команду: </string>
 </resources>

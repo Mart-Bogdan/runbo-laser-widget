@@ -5,5 +5,7 @@
     <string name="hello_world" translatable="false">Hello world!</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="phone_not_supported">Your phone is not supported!</string>
+    <string name="cant_get_root">Can\'t get root access or execute command</string>
+    <string name="cant_execute_command">Can\'t execute command: </string>
 
 </resources>

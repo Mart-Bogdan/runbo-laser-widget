@@ -1,38 +1,36 @@
 package com.innahema.runbo.laserwidget.impl;
 
+import android.os.*;
 import android.util.Log;
+import com.innahema.runbo.laserwidget.ContextHolder;
 import com.innahema.runbo.laserwidget.ILightControl;
+import com.innahema.runbo.laserwidget.R;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.IOException;
+import java.lang.Process;
+import java.util.Scanner;
+
+import static com.innahema.runbo.laserwidget.ContextHolder.showToast;
 
 /**
  * Created by winnie on 16.05.2014.
  */
 public class RunboX6LightControl implements ILightControl {
-    static final String TAG = RunboX5LightControl.class.getName();
+    static final String TAG = RunboX6LightControl.class.getName();
+    //static final String DEVICE_NAME = "/sys/class/leds/red/brightness";
+    static final String DEVICE_NAME = "/sys/class/leds/laserlight/brightness ";
 
     Class<?> lightClass;
-    Object lingthInstance;
-    Method closeLight;
-    private final Method openLight;
 
 
     public RunboX6LightControl() {
         Log.i(TAG, ".ctor()");
         try {
             lightClass = Class.forName("android.hardware.Light");
-            closeLight = lightClass.getMethod("closeLight", int.class);
-            openLight = lightClass.getMethod("openLight",int.class);
+            if(!Build.BRAND.equals("Runbo") || lightClass == null)
+                throw new RuntimeException("Not runbo phone");
 
-            lingthInstance = lightClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -40,28 +38,39 @@ public class RunboX6LightControl implements ILightControl {
     @Override
     public void enableLaser() {
         Log.i(TAG, "enableLaser()");
-        try {
-            openLight.invoke(lingthInstance,0);
-        } catch (IllegalAccessException e) {
-            Log.e(TAG,"enableLaser()",e);
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            Log.e(TAG,"enableLaser()",e);
-            throw new RuntimeException(e);
-        }
+        execSU("echo 1 > " + DEVICE_NAME);
+
     }
 
     @Override
     public void disableLaser() {
         Log.i(TAG,"disableLaser()");
+        execSU("echo 0 > " + DEVICE_NAME);
+    }
+
+
+    private static void execSU(String command) {
         try {
-            closeLight.invoke(lingthInstance,0);
-        } catch (IllegalAccessException e) {
-            Log.e(TAG,"disableLaser()",e);
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            Log.e(TAG,"disableLaser()",e);
-            throw new RuntimeException(e);
+            Process process=Runtime.getRuntime().exec(new String[]{"su", "-c", command+"; echo $?"});
+            Scanner out = new Scanner(process.getInputStream());
+
+            if(process.waitFor()!=0)
+            {
+                showToast(TAG, ContextHolder.get().getString(R.string.cant_get_root));
+                return;
+            }
+            while (out.hasNext())
+                if(!"0".equals(out.nextLine()))
+                {
+                    showToast(TAG, ContextHolder.get().getString(R.string.cant_execute_command) + command);
+
+                }
+
+        } catch (IOException e) {
+            Log.e(TAG, "enableLaser()", e);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "enableLaser()", e);
         }
     }
+
 }
