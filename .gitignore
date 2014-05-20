@@ -4,3 +4,11 @@
 .DS_Store
 .idea/gradle.xml
 *.iml
+.idea/.name
+.idea/codeStyleSettings.xml
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+*.iml
