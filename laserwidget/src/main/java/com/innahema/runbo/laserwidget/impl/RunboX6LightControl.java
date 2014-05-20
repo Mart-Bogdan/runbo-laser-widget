@@ -29,7 +29,7 @@ public class RunboX6LightControl implements ILightControl {
         try {
             lightClass = Class.forName("android.hardware.Light");
             if(!Build.BRAND.equals("Runbo") || lightClass == null)
-                throw new RuntimeException("Not runbo phone");
+                throw new RuntimeException("Not Runbo phone");
 
         } catch (Exception e) {
             throw new RuntimeException(e);

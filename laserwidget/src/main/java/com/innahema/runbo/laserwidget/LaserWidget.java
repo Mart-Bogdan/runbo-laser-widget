@@ -55,7 +55,6 @@ public class LaserWidget extends AppWidgetProvider {
 		
 		if (intent.getAction().equalsIgnoreCase(ACTION_SWITCH)) {
 			isEnabled = !isEnabled;
-			//int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
             AppWidgetManager manager = AppWidgetManager.getInstance(context);
             final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, getClass()));
@@ -66,7 +65,7 @@ public class LaserWidget extends AppWidgetProvider {
 	}
 
 	private void switchFlash() {
-        Log.i(TAG, "switchFlash(isEnabled="+isEnabled+')');                   ///
+        Log.i(TAG, "switchFlash(isEnabled="+isEnabled+')');
         if(isEnabled)
             lightControl.enableLaser();
         else
