@@ -1,6 +1,6 @@
 
 group   = 'com.innahema'
-version = '0.1.6-SNAPSHOT'
+version = '0.1.6'
 def version_code = 10
 
 
@@ -30,7 +30,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("D:\\My Documents\\my-release-key.keystore")
+            storeFile file("D:\\Dropbox\\my-release-key.keystore")
             storePassword "*******"
             keyAlias "gplay_w"
             keyPassword "******"

@@ -6,6 +6,7 @@ import com.innahema.runbo.laserwidget.ContextHolder;
 import com.innahema.runbo.laserwidget.ILightControl;
 import com.innahema.runbo.laserwidget.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.Process;
 import java.util.Scanner;
@@ -27,9 +28,9 @@ public class RunboX6LightControl implements ILightControl {
     public RunboX6LightControl() {
         Log.i(TAG, ".ctor()");
         try {
-            lightClass = Class.forName("android.hardware.Light");
-            if(!Build.BRAND.equals("Runbo") || lightClass == null)
-                throw new RuntimeException("Not Runbo phone");
+            //lightClass =Class.forName("android.hardware.Light");
+            if(!new File(DEVICE_NAME).exists())
+                throw new RuntimeException("Not Runbo X6/Q5 phone");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
